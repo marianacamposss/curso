@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Empreender SENAI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <style>
+        /* ======== ESTILO GERAL ======== */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f1f4f9;
+            color: #222;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: linear-gradient(135deg, #001b44, #003d99);
+            color: #ffffff;
+            text-align: center;
+            padding: 40px 20px;
+            font-size: 2.2rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        main {
+            flex: 1;
+            /* Permite que o main ocupe o espaço restante */
+            padding: 20px;
+        }
+
+        /* Botão Voltar/Menu */
+        #menu-btn {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 10px;
+            display: none;
+            /* Inicia oculto, só aparece na lição */
+        }
+
+        /* ======== PROGRESSO ======== */
+        .progress-section {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin: 50px auto 30px;
+            max-width: 1000px;
+            padding: 0 20px;
+        }
+/* Estilo Básico e Responsivo para Imagens */
+#lesson-view img {
+    max-width: 100%; /* Garante que a imagem nunca ultrapasse a largura do container */
+    height: auto;    /* Mantém a proporção da imagem */
+    display: block;  /* Faz com que a imagem se comporte como um bloco */
+    margin: 20px auto; /* Centraliza e adiciona margem acima/abaixo */
+    border-radius: 8px; /* Opcional: bordas arredondadas */
+}
+        .progress-card {
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            padding: 25px 40px;
+            text-align: center;
+            flex: 1 1 250px;
+            transition: all 0.3s ease;
+        }
+
+        .progress-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 14px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-value {
+            font-size: 2.4rem;
+            color: #003d99;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .progress-card h3 {
+            font-size: 1rem;
+            color: #555;
+            margin: 0;
+        }
+
+        /* ======== MÓDULOS ======== */
+        .modules {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 30px;
+        }
+
+        .module-card {
+            background: #ffffff;
+            border-radius: 18px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            transition: 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+        }
+
+        .module-header {
+            background: #003d99;
+            color: white;
+            padding: 25px 20px;
+            font-size: 1.4rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .module-content {
+            padding: 25px 25px 30px;
+        }
+
+        .module-content h4 {
+            margin: 10px 0 15px;
+            color: #222;
+            font-size: 1.05rem;
+            border-bottom: 2px solid #e0e6f0;
+            padding-bottom: 5px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            margin: 10px 0;
+            font-size: 0.95rem;
+            color: #003d99;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+        }
+
+        li .status-icon {
+            font-size: 1rem;
+            margin-right: 8px;
+            color: #ccc;
+            /* Padrão */
+        }
+
+        li.completed .status-icon {
+            color: #4CAF50;
+            /* Verde para concluído */
+        }
+
+
+        li:hover {
+            color: #001b44;
+            text-decoration: underline;
+        }
+
+        /* ==================== ESTILOS DA AULA ==================== */
+        #lesson-view {
+            max-width: 800px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 18px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        #lesson-view h2 {
+            color: #003d99;
+            border-bottom: 2px solid #e0e6f0;
+            padding-bottom: 10px;
+        }
+
+        #lesson-view h3 {
+            color: #001b44;
+            margin-top: 30px;
+        }
+
+        /* --- Story Viewer (Carrossel) --- */
+        .story-viewer {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+            background-color: #f9f9f9;
+        }
+
+        .story-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+
+        .story-header h4 {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        .story-slides {
+            position: relative;
+        }
+
+        .story-slide {
+            display: none;
+            padding: 10px 0;
+        }
+
+        .story-slide.active {
+            display: block;
+        }
+
+        .image-placeholder {
+            background-color: #e0e6f0;
+            color: #666;
+            text-align: center;
+            padding: 40px 10px;
+            margin: 15px 0;
+            border-radius: 6px;
+        }
+
+        .story-slide button {
+            background-color: #003d99;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.2s;
+        }
+
+        .story-slide button:hover {
+            background-color: #001b44;
+        }
+
+        /* --- Acordeão --- */
+        .accordion-item {
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .accordion-header {
+            background-color: #f7f7f7;
+            color: #003d99;
+            padding: 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+
+        .accordion-header:hover {
+            background-color: #e0e6f0;
+        }
+
+        .accordion-header .material-icons {
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-header.active .material-icons {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            background-color: white;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-in-out, padding 0.3s ease-in-out;
+            padding: 0 15px;
+        }
+
+        .accordion-content.open {
+            /* padding será ajustado via JS para 15px em toggleAccordion */
+            padding-bottom: 15px;
+        }
+
+        /* --- Exercício --- */
+        .exercise-card {
+            background: #e0e6f0;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .question {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            background: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .question p {
+            font-weight: 600;
+            margin-top: 0;
+        }
+
+        .question label {
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        .question .feedback {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+
+        .exercise-card button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 10px;
+            transition: background-color 0.2s;
+        }
+
+        .exercise-card button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .download-link {
+            display: inline-flex;
+            align-items: center;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #003d99;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+        }
+
+        .download-link i {
+            margin-right: 8px;
+        }
+
+        .download-link:hover {
+            background-color: #001b44;
+        }
+
+        #next-lesson-btn {
+            float: right;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 20px;
+            display: none;
+            /* Inicialmente oculto */
+        }
+
+        #next-lesson-btn:hover {
+            background-color: #45a049;
+        }
+
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            font-size: 0.9rem;
+            color: #666;
+            background-color: #e0e6f0;
+            /* Um pouco mais escuro para destaque */
+            border-top: 1px solid #e1e5ee;
+            margin-top: 40px;
+        }
+
+        /* Media Query para telas bem pequenas (ex: celulares) */
+        @media (max-width: 600px) {
+            header {
+                font-size: 1.8rem;
+                padding: 30px 15px;
+            }
+
+            .progress-card {
+                padding: 20px;
+                flex: 1 1 100%;
+            }
+
+            .progress-section {
+                padding: 0 15px;
+                gap: 15px;
+            }
+
+            .modules {
+                padding: 0 15px;
+            }
+
+            .module-header {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <button id="menu-btn" onclick="showMenu()">
+            <i class="material-icons">arrow_back</i>
+        </button>
+        <span id="header-title">Empreender SENAI</span>
+    </header>
+
+    <main>
+        <section id="home-view">
+            <section class="progress-section">
+                <div class="progress-card">
+                    <div class="progress-value" id="progressPercent">0%</div>
+                    <h3>Progresso do curso</h3>
+                </div>
+
+                <div class="progress-card">
+                    <div class="progress-value" id="correctPercent">0%</div>
+                    <h3>Acertos em exercícios</h3>
+                </div>
+
+                <div class="progress-card">
+                    <div class="progress-value" id="exercisesDone">0/12</div>
+                    <h3>Exercícios concluídos</h3>
+                </div>
+            </section>
+
+            <section class="modules">
+
+                <div class="module-card">
+                    <div class="module-header">Módulo 1 – ANALISE</div>
+                    <div class="module-content">
+                        <h4>Aulas</h4>
+                        <ul>
+                            <li onclick="showLesson('m1-a1')" data-id="m1-a1">
+                                <span class="status-icon material-icons">radio_button_unchecked</span>
+                                1. Conheça a si mesmo
+                            </li>
+                            <li onclick="showLesson('m1-a2')" data-id="m1-a2">
+                                <span class="status-icon material-icons">radio_button_unchecked</span>
+                                2. Conheça o mercado
+                            </li>
+                            <li onclick="showLesson('m1-a3')" data-id="m1-a3">
+                                <span class="status-icon material-icons">radio_button_unchecked</span>
+                                3. Conheça o cliente
+                            </li>
+                            <li onclick="showLesson('m1-a4')" data-id="m1-a4">
+                                <span class="status-icon material-icons">radio_button_unchecked</span>
+                                4. Conheça o negócio
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="module-card">
+                    <div class="module-header">Módulo 2 – INICIE</div>
+                    <div class="module-content">
+                        <h4>Aulas</h4>
+                        <ul>
+                            <li onclick="showLesson('m2-a1')" data-id="m2-a1">
+                                <span class="status-icon material-icons">radio_button_unchecked</span>
+                                1. Os primeiros passos
+                            </li>
+                            <li onclick="showLesson('m2-a2')" data-id="m2-a2">
+                                <span class="status-icon material-icons">radio_button_unchecked</span>
+                                2. Formação de preços
+                            </li>
+                            <li onclick="showLesson('m2-a3')" data-id="m2-a3">
+                                <span class="status-icon material-icons">radio_button_unchecked</span>
+                                3. Legalização
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="module-card">
+                    <div class="module-header">Módulo 3 – GERENCIE</div>
+                    <div class="module-content">
+                        <h4>Aulas</h4>
+                        <ul>
+                            <li onclick="showLesson('m3-a1')" data-id="m3-a1">
+                                <span class="status-icon material-icons">radio_button_unchecked</span>
+                                1. Controle de Vendas
+                            </li>
+                            <li onclick="showLesson('m3-a2')" data-id="m3-a2">
+                                <span class="status-icon material-icons">radio_button_unchecked</span>
+                                2. Controle de Estoque
+                            </li>
+                            <li onclick="showLesson('m3-a3')" data-id="m3-a3">
+                                <span class="status-icon material-icons">radio_button_unchecked</span>
+                                3. Controle Financeiro
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="module-card">
+                    <div class="module-header">Módulo 4 – CRESÇA</div>
+                    <div class="module-content">
+                        <h4>Aulas</h4>
+                        <ul>
+                            <li onclick="showLesson('m4-a1')" data-id="m4-a1">
+                                <span class="status-icon material-icons">radio_button_unchecked</span>
+                                1. Desenvolvimento
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </section>
+        </section>
+
+        <section id="lesson-view" style="display: none;">
+            <div id="lesson-content">
+            </div>
+
+            <button id="next-lesson-btn" onclick="goToNextLesson()" style="display: none;">Próxima Aula »</button>
+        </section>
+
+    </main>
+
+    <footer>
+        © 2025 Empreender SENAI — Desenvolvido por Mari 💙
+    </footer>
+
+    <script>
+        // =======================================================
+        // VARIÁVEIS GLOBAIS E INICIALIZAÇÃO
+        // =======================================================
+        const totalExercises = 12;
+        let completed = 0;
+        let correct = 0;
+        let currentLessonId = '';
+
+        function initializeStorage() {
+            // Inicializa as variáveis de progresso, se ainda não existirem
+            completed = parseInt(localStorage.getItem('completed')) || 0;
+            correct = parseInt(localStorage.getItem('correct')) || 0;
+
+            // Garante que o estado de cada aula seja inicializado
+            for (const id in lessons) {
+                if (localStorage.getItem(`${id}-done`) === null) {
+                    localStorage.setItem(`${id}-done`, 'false');
+                }
+            }
+            updateProgress();
+            updateLessonStatuses();
+        }
+
+        function updateProgress() {
+            const numCompleted = parseInt(completed);
+            const numCorrect = parseInt(correct);
+
+            const progressPercent = totalExercises > 0 ? Math.round((numCompleted / totalExercises) * 100) : 0;
+            // Evita divisão por zero: se 0 completado, 0% de acerto.
+            const correctPercent = numCompleted > 0 ? Math.round((numCorrect / numCompleted) * 100) : 0;
+
+            document.getElementById('progressPercent').innerText = progressPercent + '%';
+            document.getElementById('correctPercent').innerText = correctPercent + '%';
+            document.getElementById('exercisesDone').innerText = `${numCompleted}/${totalExercises}`;
+        }
+
+        function updateLessonStatuses() {
+            // Atualiza os ícones de status no menu principal
+            const lessonListItems = document.querySelectorAll('.modules ul li');
+            lessonListItems.forEach(item => {
+                const lessonId = item.getAttribute('data-id');
+                const statusIcon = item.querySelector('.status-icon');
+
+                if (lessonId && localStorage.getItem(`${lessonId}-done`) === 'true') {
+                    item.classList.add('completed');
+                    statusIcon.textContent = 'check_circle'; // Ícone de concluído
+                } else {
+                    item.classList.remove('completed');
+                    statusIcon.textContent = 'radio_button_unchecked'; // Ícone de não concluído
+                }
+            });
+        }
+
+        // =======================================================
+        // NAVEGAÇÃO
+        // =======================================================
+
+        function showMenu() {
+            // Mostra o menu e oculta a lição
+            document.getElementById('home-view').style.display = 'block';
+            document.getElementById('lesson-view').style.display = 'none';
+            document.getElementById('menu-btn').style.display = 'none';
+            document.getElementById('header-title').textContent = 'Empreender SENAI';
+
+            updateProgress(); // Atualiza os contadores ao voltar ao menu
+            updateLessonStatuses(); // Atualiza os status das aulas
+        }
+
+        function showLesson(lessonId) {
+            const lesson = lessons[lessonId];
+            if (!lesson) return;
+
+            // Oculta o menu e mostra a lição
+            document.getElementById('home-view').style.display = 'none';
+            document.getElementById('lesson-view').style.display = 'block';
+            document.getElementById('menu-btn').style.display = 'block';
+            document.getElementById('header-title').textContent = lesson.title;
+
+            // Carrega o conteúdo
+            document.getElementById('lesson-content').innerHTML = lesson.content;
+            currentLessonId = lessonId;
+
+            // Inicialização específica da aula (Story Viewer, Próxima Aula)
+            const isDone = localStorage.getItem(`${lessonId}-done`) === 'true';
+            document.getElementById('next-lesson-btn').style.display = isDone ? 'block' : 'none';
+
+            // Lógica de inicialização específica da Aula 1
+            if (lessonId === 'm1-a1') {
+                const savedSlide = parseInt(localStorage.getItem('m1-a1-story-slide')) || 1;
+                updateStoryViewer(savedSlide);
+                enableCheckButton('m1-a1');
+            }
+
+            // Volta ao topo da tela para uma boa visualização da aula
+            window.scrollTo(0, 0);
+        }
+
+        function goToNextLesson() {
+            const lesson = lessons[currentLessonId];
+            if (lesson && lesson.nextLessonId && lessons[lesson.nextLessonId]) {
+                showLesson(lesson.nextLessonId);
+            } else {
+                alert("Parabéns! Você concluiu esta é a última aula deste módulo/curso.");
+                showMenu();
+            }
+        }
+
+
+        // =======================================================
+        // FUNÇÕES DE INTERATIVIDADE (Story Viewer, Acordeão e Exercício)
+        // =======================================================
+
+        // --- Story Viewer (Carrossel) ---
+        function updateStoryViewer(slideNumber) {
+            const viewer = document.getElementById('behavior-viewer');
+            if (!viewer) return;
+
+            const slides = viewer.querySelectorAll('.story-slide');
+            const counter = viewer.querySelector('.story-counter');
+            const totalSlides = slides.length;
+
+            slides.forEach(slide => {
+                slide.classList.remove('active');
+                slide.style.display = 'none';
+            });
+
+            const activeSlide = viewer.querySelector(`[data-slide="${slideNumber}"]`);
+            if (activeSlide) {
+                activeSlide.classList.add('active');
+                activeSlide.style.display = 'block';
+                counter.textContent = `${slideNumber} de ${totalSlides}`;
+                localStorage.setItem('m1-a1-story-slide', slideNumber);
+            }
+        }
+
+        function nextStorySlide() {
+            let current = parseInt(localStorage.getItem('m1-a1-story-slide')) || 1;
+
+            // ATUALIZADO: Total de 12 slides
+            const slidesCount = 12;
+
+            if (current < slidesCount) {
+                updateStoryViewer(current + 1);
+            }
+        }
+
+        function resetStorySlide() {
+            updateStoryViewer(1);
+        }
+
+        // --- Acordeão ---
+        function toggleAccordion(header) {
+            header.classList.toggle('active');
+            const content = header.nextElementSibling;
+            if (content.classList.contains('open')) {
+                content.classList.remove('open');
+                content.style.maxHeight = null;
+                content.style.padding = '0 15px';
+            } else {
+                content.classList.add('open');
+                // Ajusta o maxHeight para o scrollHeight do conteúdo + padding
+                content.style.maxHeight = content.scrollHeight + 30 + "px";
+                content.style.padding = '15px';
+            }
+        }
+
+        // --- Exercício de Fixação ---
+        function checkExercise(lessonId) {
+            const exerciseCard = document.getElementById(`${lessonId}-exercise`);
+            if (!exerciseCard) return;
+
+            const questions = exerciseCard.querySelectorAll('.question');
+            let correctAnswers = 0;
+            let totalQuestions = questions.length;
+
+            questions.forEach(question => {
+                const selected = question.querySelector('input:checked');
+                const answer = question.getAttribute('data-answer');
+                const feedback = question.querySelector('.feedback');
+
+                // Garante que o feedback seja limpo antes de uma nova checagem
+                feedback.textContent = '';
+
+                if (selected && selected.value === answer) {
+                    feedback.textContent = 'Resposta Correta! ✅';
+                    feedback.style.color = 'green';
+                    correctAnswers++;
+                } else if (selected) {
+                    feedback.textContent = `Resposta Incorreta. A correta era ${answer}. ❌`;
+                    feedback.style.color = 'red';
+                }
+            });
+
+            const checkBtn = exerciseCard.querySelector('button');
+            const resultDiv = document.getElementById(`exercise-${lessonId}-result`);
+
+            let lessonIsDone = localStorage.getItem(`${lessonId}-done`) === 'true';
+
+            // Lógica de Conclusão e Progresso
+            if (!lessonIsDone) {
+                if (correctAnswers === totalQuestions) {
+                    localStorage.setItem(`${lessonId}-done`, 'true');
+                    completed++;
+                    correct++;
+                    localStorage.setItem('completed', completed);
+                    localStorage.setItem('correct', correct);
+
+                    document.getElementById('next-lesson-btn').style.display = 'block';
+                    resultDiv.innerHTML = `**Parabéns!** Você acertou todas (${correctAnswers}/${totalQuestions}). Lição concluída!`;
+                    resultDiv.style.color = 'green';
+                    checkBtn.disabled = true; // Desabilita permanentemente se 100% de acerto
+                } else {
+                    resultDiv.innerHTML = `Você acertou **${correctAnswers} de ${totalQuestions}** questões. Tente novamente!`;
+                    resultDiv.style.color = '#003d99';
+                    // Re-habilita o botão para que o usuário possa tentar novamente
+                    checkBtn.disabled = false;
+                }
+            } else {
+                // Se a lição JÁ ESTÁ CONCLUÍDA
+                resultDiv.innerHTML = `Lição já concluída. Seu resultado atual: **${correctAnswers} de ${totalQuestions}**.`;
+                resultDiv.style.color = '#003d99';
+                checkBtn.disabled = true;
+            }
+
+            updateProgress();
+        }
+
+        // Função para re-habilitar/desabilitar o botão de checagem
+        function enableCheckButton(lessonId) {
+            const exerciseCard = document.getElementById(`${lessonId}-exercise`);
+            if (!exerciseCard) return;
+
+            const checkBtn = exerciseCard.querySelector('button');
+            const allQuestions = exerciseCard.querySelectorAll('.question');
+            let allAnswered = true;
+
+            allQuestions.forEach(q => {
+                if (!q.querySelector('input:checked')) {
+                    allAnswered = false;
+                }
+            });
+
+            const isDone = localStorage.getItem(`${lessonId}-done`) === 'true';
+
+            // Só habilita se todas estiverem respondidas E se a lição não tiver sido 100% concluída.
+            checkBtn.disabled = isDone || !allAnswered;
+        }
+
+        // Adiciona event listeners para re-habilitar o botão ao selecionar
+        document.addEventListener('change', (event) => {
+            if (event.target.closest('.exercise-card')) {
+                const lessonId = event.target.closest('.exercise-card').id.replace('-exercise', '');
+                enableCheckButton(lessonId);
+            }
+        });
+
+        // =======================================================
+        // OBJETO COM O CONTEÚDO DA AULA 1 (m1-a1)
+        // =======================================================
+        const lessons = {
+            'm1-a1': {
+                title: 'Módulo 1 – Aula 1. Conheça a si mesmo',
+                content: `
+                    <h2>Conheça a si mesmo</h2>
+                    <p>Você já parou para pensar como pode identificar suas habilidades e preferências para empreender?</p>
+                    <img src="https://img.freepik.com/fotos-premium/uma-ideia-de-lampada-emite-luz-conceito-de-ideia_787667-487.jpg" alt=".">
+                    <h3>Motivações para Empreender</h3>
+                    <p>A decisão de empreender pode surgir por diferentes motivos, conforme o dia a dia e os objetivos de cada pessoa. Trazemos, abaixo, as ideias mais comuns apresentadas pelas pessoas ao abrir um negócio próprio. <br>Selecione os tópicos que você considera motivos coerentes para tomar a decisão de empreender:</p>
+                    
+                    <div class="motivation-list">
+                        <div class="motivation-grid">
+        <label><input type="checkbox"> Ao empreender trabalhará menos.</label><br>
+        <label><input type="checkbox"> Melhorar algo oferecido pelo mercado.</label><br>
+        
+        <label class="highlight"><input type="checkbox"> Empreender para não ter mais chefe.</label><br>
+        <label class="highlight"><input type="checkbox"> Vontade de se tornar independente.</label><br>
+        
+        <label><input type="checkbox"> Trabalhar sozinho e não ter que me relacionar com muitas pessoas.</label><br>
+        <label><input type="checkbox"> Aproveitar uma habilidade pessoal ou recurso disponível.</label><br>
+        
+        <label><input type="checkbox"> Ganhar muito dinheiro rapidamente.</label><br>
+        <label><input type="checkbox"> Aumentar os ganhos.</label><br>
+        
+        <label><input type="checkbox"> Impactar de forma positiva a vida das pessoas.</label><br>
+        <label><input type="checkbox"> Insegurança ou instabilidade na situação atual.</label><br>
+    </div><br>
+                    </div>
+                    
+                    <p>É claro que cada um tem seus motivos pessoais e não cabe julgá-los. Porém, é necessário refletir sobre alguns pontos.</p>
+                    <p>O importante é que se você pretende iniciar um empreendimento, reflita sobre suas motivações. Sejam quais forem os motivos, é necessário reconhecê-los e saber como estão influenciando as suas ações, bem como saber como se preparar para empreender, o quanto você precisará se dedicar para desenvolver comportamentos que te levem na direção de seus objetivos e metas.</p>
+                    <p>E falando em comportamento, você acredita que é possível desenvolver comportamentos empreendedores ou as pessoas já nascem prontas para empreender? Pense sobre isso e siga em frente em seu estudo para conhecer mais sobre os comportamentos das pessoas empreendedoras.</p>
+            <img src="ideiaplanotrabalho.jpg" alt=".">
+                    <h3>Razão, Emoção e Ação</h3>
+                    <p>Muitas vezes, os pensamentos surgem em meio à emoções e sentimentos que geram sensações e percepções que impulsionam nosso comportamento para agir ou reagir de determinada forma. A consciência, por outro lado, busca o equilíbrio na razão e analisa se o que pensamos e sentimos, bem como se o impulso inicial, têm sentido, e quais seriam as consequências ao agir na direção pensada. É a partir deste ponto que se organiza uma ideia, se impulsiona uma atitude que define o comportamento para uma ação.</p>
+                    <p>Em nosso dia a dia, temos que tomar muitas decisões como: qual caminho seguir; qual ação será mais acertada para os desafios que surgirem.</p>
+                    <img src="coracaocerebro.png" alt=".">
+                    <p>Nossas decisões sempre envolvem doses de razão e de emoção. É necessário buscar equilíbrio e harmonia entre estes elementos, uma vez que antes de tomar uma decisão definitiva, precisamos pensar nas consequências e balancear prós e contras para evitar perdas. Agindo dessa forma, ponderando razão e emoção, as chances de evitar perdas e maximizar ganhos são maiores. Às vezes, buscamos explicações para um fato que ocorre no nosso <strong>dia a dia</strong>, considerando o resultado de nosso comportamento ou do comportamento de outra pessoa.</p>
+                    
+                    <p>Quando assumimos as responsabilidades pelas nossas ações, aumentamos a chance de compreender situações e controlar emoções para decidir racionalmente sobre o que fazer.</p>
+                    
+                    <p>Em outras palavras, quando <strong>o empreendedor traz para si a responsabilidade</strong> do controle pelos resultados, ele potencializa sua <strong>capacidade de agir</strong> na busca de objetivos e metas, e de enfrentar os desafios do caminho.</p>
+                    
+                    <p>O principal diferencial das pessoas que buscam a realização é que elas não esperam as coisas acontecerem, elas se antecipam e movem-se para ter maior controle sobre os acontecimentos e resultados esperados.</p>
+                    
+                    <p>Uma pessoa empreendedora sabe que a <strong>razão e a emoção</strong> estarão presentes na tomada de decisões, e que <strong>é na ação que o ato de empreender se concretiza</strong>. Empreender é realizar e fazer acontecer.</p>
+
+                    <h3>Características do Empreendedor</h3>
+                    <p>Empreendedores são movidos por necessidades ou buscam aproveitar oportunidades. O empreendedor visa promover mudanças e impactos com suas ações e seu contexto de atuação não se restringe a uma determinada profissão ou atividade.</p>
+                    
+                    <div class="story-viewer" id="behavior-viewer">
+    <div class="story-header">
+        <h4>História de um Empreendedor: A Trajetória de João</h4>
+        <span class="story-counter">1 de 12</span>
+    </div>
+    <div class="story-slides">
+        <div class="story-slide active" data-slide="1">
+            <p><strong>1/12:</strong> João foi funcionário de uma oficina mecânica por 10 anos.</p>
+            <img src="slide1.png.png" alt="João trabalhando em uma oficina." class="story-image">
+            <button onclick="nextStorySlide()">Próximo »</button>
+        </div>
+        <div class="story-slide" data-slide="2">
+            <p><strong>2/12:</strong> Muitas vezes, realizava serviços extras em sua casa para complementar a renda de sua família.</p>
+            <img src="slide2.png.png" alt="João fazendo serviços extras em casa." class="story-image">
+            <button onclick="nextStorySlide()">Próximo »</button>
+        </div>
+        <div class="story-slide" data-slide="3">
+            <p><strong>3/12:</strong> Numa conversa surgiu a ideia de abrir sua própria oficina. Resolveu estudar para empreender e relembrar os tempos do ensino técnico.</p>
+            <img src="slide3.png" alt="João estudando para empreender." class="story-image">
+            <button onclick="nextStorySlide()">Próximo »</button>
+        </div>
+        <div class="story-slide" data-slide="4">
+            <p><strong>4/12:</strong> Pesquisou sobre o mercado automotivo para definir quais serviços oferecer, quem seria o público-alvo do negócio e os recursos necessários para abrir uma empresa.</p>
+            <img src="slide4.png.png" alt="João pesquisando o mercado." class="story-image">
+            <button onclick="nextStorySlide()">Próximo »</button>
+        </div>
+        <div class="story-slide" data-slide="5">
+            <p><strong>5/12:</strong> Enquanto planejava o negócio próprio, João teve problemas pessoais e utilizou parte do dinheiro para outras atividades.</p>
+            <img src="slide5.png.png" alt="João enfrentando problemas financeiros." class="story-image">
+            <button onclick="nextStorySlide()">Próximo »</button>
+        </div>
+        <div class="story-slide" data-slide="6">
+            <p><strong>6/12:</strong> O imprevisto o fez adiar seus planos e pensar em alternativas.</p>
+            <img src="slide6.png.png" alt="João adiando os planos." class="story-image">
+            <button onclick="nextStorySlide()">Próximo »</button>
+        </div>
+        <div class="story-slide" data-slide="7">
+            <p><strong>7/12:</strong> Um novo modelo de negócio surgiu na sua mente: profissionais diferentes no mesmo local, prestando vários serviços automotivos.</p>
+            <img src="slide7.png.png" alt="Novo modelo de negócio." class="story-image">
+            <button onclick="nextStorySlide()">Próximo »</button>
+        </div>
+        <div class="story-slide" data-slide="8">
+            <p><strong>8/12:</strong> Para isso, precisava encontrar empreendedores para investir com ele. Encontrou um colega especialista em elétrica que abraçou a sua ideia.</p>
+            <img src="slide8.png.png" alt="João encontrando um colega para parceria." class="story-image">
+            <button onclick="nextStorySlide()">Próximo »</button>
+        </div>
+        <div class="story-slide" data-slide="9">
+            <p><strong>9/12:</strong> Juntos, reorganizaram o plano, definiram os objetivos e datas de cada atividade que precisariam executar.</p>
+            <img src="slide9.png.png" alt="Reorganização do plano de negócio." class="story-image">
+            <button onclick="nextStorySlide()">Próximo »</button>
+        </div>
+        <div class="story-slide" data-slide="10">
+            <p><strong>10/12:</strong> Iniciaram o negócio e, com o passar do tempo, agregaram serviços automotivos em parceria com outros profissionais.</p>
+            <img src="slide10.png.png" alt="O negócio sendo iniciado." class="story-image">
+            <button onclick="nextStorySlide()">Próximo »</button>
+        </div>
+        <div class="story-slide" data-slide="11">
+            <p><strong>11/12:</strong> João não desistiu diante da adversidade, nem com todos os desafios do início do negócio. Ao contrário, os desafios mostraram novos caminhos.</p>
+            <img src="slide11.png.png" alt="João persistindo apesar dos desafios." class="story-image">
+            <button onclick="nextStorySlide()">Próximo »</button>
+        </div>
+        <div class="story-slide" data-slide="12">
+            <p><strong>12/12:</strong> Hoje, é o responsável pelo centro de serviços, com vários profissionais. Conquistou sua independência financeira, vem prosperando e está sempre observando como está o mercado, e como se adequar.</p>
+            <img src="slide12.png.png" alt="João no seu centro de serviços de sucesso." class="story-image">
+            <button onclick="resetStorySlide()">Voltar ao Início</button>
+        </div>
+    </div>
+</div>
+                    <img src="reflita.png" alt="." >
+                    <p>Você considera que o personagem agiu de forma empreendedora? Quais foram as características empreendedoras que se destacaram em seu comportamento?</p>
+                    
+                    <p>Conheça alguns diferenciais dos empreendedores:</p>
+                    <ul>
+                        <li>Têm disposição para sair da rotina;</li>
+                        <li>Planejam suas atividades antes da execução;</li>
+                        <li>Têm ações e prazos definidos;</li>
+                        <li>Analisam resultados e avaliam a necessidade de efetuar mudanças;</li>
+                        <li>Agem diante das adversidades;</li>
+                        <li>Têm compromisso com a qualidade e foco no cliente;</li>
+                        <li>Lideram de maneira eficiente.</li>
+                    </ul>
+                    
+                    <p>Ações estratégicas caracterizam o empreendedor que tem clareza de suas metas e gerencia seu negócio para alcançá-las. Para se desenvolver e manter a competitividade no mercado, é importante ter segurança nas decisões tomadas e confiar nas suas competências para enfrentar dificuldades e superar desafios.</p>
+
+                    <h3>Sonhos e Metas</h3>
+                    <p>Os sonhos são a expressão dos nossos desejos e anseios e representam fatores motivadores na busca pela realização pessoal e pelo desenvolvimento profissional.</p>
+                    <p>Porém, deve existir um caminho entre o sonho e a realidade. Ou seja, é preciso definir os passos para transformar sonhos em realidade. Para isso, primeiramente é preciso sonhar, por mais óbvio que isso possa parecer.</p>
+                    <p>Empreendedores são pessoas visionárias que imaginam o que querem alcançar e realizar. Mas ao mesmo tempo, são pessoas que agem para transformar seus sonhos em realidade.</p>
+                    
+                    <p>Quer empreender? Confie em seus sonhos e, a partir deles, defina seus objetivos e metas, estabeleça os passos para alcançar o que deseja. Clique nos tópicos para saber como iniciar:</p>
+                    
+                    <div class="accordion">
+                        <div class="accordion-item">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">
+                                Sonhe
+                                <i class="material-icons">expand_more</i>
+                            </div>
+                            <div class="accordion-content">
+                                <p>Defina o que deseja alcançar.</p>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">
+                                Avalie oportunidades e riscos
+                                <i class="material-icons">expand_more</i>
+                            </div>
+                            <div class="accordion-content">
+                                <p>Busque e analise informações para identificar oportunidades e riscos para concretizar seus sonhos. Lembre-se de que empreendedores agem para aproveitar as oportunidades e minimizar os riscos..</p>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">
+                                Defina Metas
+                                <i class="material-icons">expand_more</i>
+                            </div>
+                            <div class="accordion-content">
+                                <p>Busque e analise informações para identificar oportunidades e riscos para concretizar seus sonhos. Lembre-se de que empreendedores agem para aproveitar as oportunidades e minimizar os riscos.</p>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">
+                                Planeje os passos para alcançar suas metas
+                                <i class="material-icons">expand_more</i>
+                            </div>
+                            <div class="accordion-content">
+                                <p>Elabore um plano listando as ações que precisam ser realizadas para que suas metas se concretizem. Defina prazos para realizar cada ação planejada.</p>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">
+                                Aja e monitore o planejamento
+                                <i class="material-icons">expand_more</i>
+                            </div>
+                            <div class="accordion-content">
+                                <p>Realize ações planejadas, conferindo resultados e agindo para solucionar problemas e enfrentar desafios que surgirem.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p>O comportamento empreendedor se desenvolve na prática reflexiva do dia a dia, a partir das ações realizadas e dos resultados alcançados. Desenvolva uma conduta empreendedora analisando seus comportamentos e o que precisa aprimorar para seguir rumo aos seus sonhos e metas. Este curso não lhe entregará um “diploma de empreendedor”, suas características colocadas em prática é que mostrarão o quanto você está agindo como empreendedor.</p>
+                    
+                    <p>Como empreendedor você precisa ter metas claras. 
+    <a href="planodeacao.pdf" class="download-link" download>
+        <i class="material-icons">file_download</i> 
+        Colocando em Prática: Modelo para um Plano de Ação (PDF)
+    </a>
+</p>
+
+                    <hr>
+
+                    <h3>Exercício de Fixação – M1 - Aula 1</h3>
+                    
+                    <div class="exercise-card" id="m1-a1-exercise">
+                        <p>Selecione Falso (F) ou Verdadeiro (V) para as afirmações sobre o comportamento empreendedor:</p>
+                        
+                        <div class="question" data-answer="V">
+                            <p>1. Para o empreendedor é importante definir seus objetivos.</p>
+                            <input type="radio" id="q1v" name="q1" value="V"><label for="q1v">V</label>
+                            <input type="radio" id="q1f" name="q1" value="F"><label for="q1f">F</label>
+                            <div class="feedback"></div>
+                        </div>
+
+                        <div class="question" data-answer="F">
+                            <p>2. O empreendedor precisa confiar nos seus conhecimentos e não precisa buscar informações para iniciar o negócio.</p>
+                            <input type="radio" id="q2v" name="q2" value="V"><label for="q2v">V</label>
+                            <input type="radio" id="q2f" name="q2" value="F"><label for="q2f">F</label>
+                            <div class="feedback"></div>
+                        </div>
+                        
+                        <div class="question" data-answer="F">
+                            <p>3. O empreendedor tem coragem e deve realizar as atividades sem analisar os riscos, confiando na sua própria capacidade.</p>
+                            <input type="radio" id="q3v" name="q3" value="V"><label for="q3v">V</label>
+                            <input type="radio" id="q3f" name="q3" value="F"><label for="q3f">F</label>
+                            <div class="feedback"></div>
+                        </div>
+
+                        <div class="question" data-answer="V">
+                            <p>4. Para o empreendedor é fundamental manter um bom relacionamento com os seus clientes, fornecedores e até mesmo concorrentes que possam auxiliar o desenvolvimento das atividades do seu negócio.</p>
+                            <input type="radio" id="q4v" name="q4" value="V"><label for="q4v">V</label>
+                            <input type="radio" id="q4f" name="q4" value="F"><label for="q4f">F</label>
+                            <div class="feedback"></div>
+                        </div>
+
+                        <div class="question" data-answer="F">
+                            <p>5. O empreendedor deve agir de acordo com seus instintos, insistindo mesmo se suas decisões não trouxerem bons resultados.</p>
+                            <input type="radio" id="q5v" name="q5" value="V"><label for="q5v">V</label>
+                            <input type="radio" id="q5f" name="q5" value="F"><label for="q5f">F</label>
+                            <div class="feedback"></div>
+                        </div>
+
+                        <div class="question" data-answer="V">
+                            <p>6. O empreendedor tem que buscar oportunidades de melhoria e crescimento constantemente.</p>
+                            <input type="radio" id="q6v" name="q6" value="V"><label for="q6v">V</label>
+                            <input type="radio" id="q6f" name="q6" value="F"><label for="q6f">F</label>
+                            <div class="feedback"></div>
+                        </div>
+                        
+                        <button onclick="checkExercise('m1-a1')" disabled>Verificar Respostas</button>
+                        <div class="feedback" id="exercise-m1-a1-result"></div>
+                    </div>
+                `,
+                nextLessonId: 'm1-a2',
+                nextLessonTitle: 'Conheça o mercado'
+            },
+
+            // Aulas placeholder (para evitar erros de navegação)
+            'm1-a2': { title: 'Módulo 1 – Aula 2. Conheça o mercado', content: '<h3>Em desenvolvimento...</h3><p>O conteúdo da próxima aula será adicionado aqui.</p>', nextLessonId: 'm1-a3' },
+            'm1-a3': { title: 'Módulo 1 – Aula 3. Conheça o cliente', content: '<h3>Em desenvolvimento...</h3><p>O conteúdo da próxima aula será adicionado aqui.</p>', nextLessonId: 'm1-a4' },
+            'm1-a4': { title: 'Módulo 1 – Aula 4. Conheça o negócio', content: '<h3>Em desenvolvimento...</h3><p>O conteúdo da próxima aula será adicionado aqui.</p>', nextLessonId: 'm2-a1' },
+
+            'm2-a1': { title: 'Módulo 2 – Aula 1. Os primeiros passos', content: '<h3>Em desenvolvimento...</h3><p>O conteúdo da próxima aula será adicionado aqui.</p>', nextLessonId: 'm2-a2' },
+            'm2-a2': { title: 'Módulo 2 – Aula 2. Formação de preços', content: '<h3>Em desenvolvimento...</h3><p>O conteúdo da próxima aula será adicionado aqui.</p>', nextLessonId: 'm2-a3' },
+            'm2-a3': { title: 'Módulo 2 – Aula 3. Legalização', content: '<h3>Em desenvolvimento...</h3><p>O conteúdo da próxima aula será adicionado aqui.</p>', nextLessonId: 'm3-a1' },
+
+            'm3-a1': { title: 'Módulo 3 – Aula 1. Controle de Vendas', content: '<h3>Em desenvolvimento...</h3><p>O conteúdo da próxima aula será adicionado aqui.</p>', nextLessonId: 'm3-a2' },
+            'm3-a2': { title: 'Módulo 3 – Aula 2. Controle de Estoque', content: '<h3>Em desenvolvimento...</h3><p>O conteúdo da próxima aula será adicionado aqui.</p>', nextLessonId: 'm3-a3' },
+            'm3-a3': { title: 'Módulo 3 – Aula 3. Controle Financeiro', content: '<h3>Em desenvolvimento...</h3><p>O conteúdo da próxima aula será adicionado aqui.</p>', nextLessonId: 'm4-a1' },
+
+            'm4-a1': { title: 'Módulo 4 – Aula 1. Desenvolvimento', content: '<h3>Em desenvolvimento...</h3><p>O conteúdo da próxima aula será adicionado aqui.</p>', nextLessonId: null },
+        };
+
+        // Inicializa o armazenamento e o progresso ao carregar a página
+        window.onload = initializeStorage;
+    </script>
+</body>
+
+</html>
