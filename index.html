@@ -624,7 +624,20 @@
 
         function showLesson(lessonId) {
             const lesson = lessons[lessonId];
-            if (!lesson) return;
+if (!lesson) {
+    document.getElementById('home-view').style.display = 'none';
+    document.getElementById('lesson-view').style.display = 'block';
+    document.getElementById('menu-btn').style.display = 'block';
+
+    document.getElementById('header-title').textContent = "Aula não encontrada";
+
+    document.getElementById('lesson-content').innerHTML = `
+        <h2>Desculpa meu amor, ainda não fiz essa 🤦‍♀️</h2>
+        <p>Essa aula ainda tá sendo construída.</p>
+    `;
+    return;
+}
+
 
             // Oculta o menu e mostra a lição
             document.getElementById('home-view').style.display = 'none';
