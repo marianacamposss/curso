@@ -65,14 +65,21 @@
             max-width: 1000px;
             padding: 0 20px;
         }
-/* Estilo Básico e Responsivo para Imagens */
-#lesson-view img {
-    max-width: 100%; /* Garante que a imagem nunca ultrapasse a largura do container */
-    height: auto;    /* Mantém a proporção da imagem */
-    display: block;  /* Faz com que a imagem se comporte como um bloco */
-    margin: 20px auto; /* Centraliza e adiciona margem acima/abaixo */
-    border-radius: 8px; /* Opcional: bordas arredondadas */
-}
+
+        /* Estilo Básico e Responsivo para Imagens */
+        #lesson-view img {
+            max-width: 100%;
+            /* Garante que a imagem nunca ultrapasse a largura do container */
+            height: auto;
+            /* Mantém a proporção da imagem */
+            display: block;
+            /* Faz com que a imagem se comporte como um bloco */
+            margin: 20px auto;
+            /* Centraliza e adiciona margem acima/abaixo */
+            border-radius: 8px;
+            /* Opcional: bordas arredondadas */
+        }
+
         .progress-card {
             background: white;
             border-radius: 18px;
@@ -640,32 +647,47 @@
             document.getElementById('menu-btn').style.display = 'block';
             document.getElementById('header-title').textContent = lesson.title;
 
-            // Carrega o conteúdo
-            document.getElementById('lesson-content').innerHTML = lesson.content;
-            currentLessonId = lessonId;
+            const lessonContentDiv = document.getElementById('lesson-content');
 
-            // Inicialização específica da aula (Story Viewer, Próxima Aula)
-            const isDone = localStorage.getItem(`${lessonId}-done`) === 'true';
-            document.getElementById('next-lesson-btn').style.display = isDone ? 'block' : 'none';
+            // **LÓGICA DE CARREGAMENTO**
+            if (lesson.url) {
+                // Opção 1: Carregar conteúdo de um arquivo HTML externo (para Aula 2 e futuras)
+                fetch(lesson.url)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`Não foi possível carregar a aula: ${response.status}`);
+                        }
+                        return response.text();
+                    })
+                    .then(html => {
+                        lessonContentDiv.innerHTML = html;
 
-            // Lógica de inicialização específica da Aula 1
-            if (lessonId === 'm1-a1') {
-                const savedSlide = parseInt(localStorage.getItem('m1-a1-story-slide')) || 1;
-                updateStoryViewer(savedSlide);
-                enableCheckButton('m1-a1');
-            }
+                        // Lógica de inicialização (próxima aula, estado de conclusão, etc.)
+                        const isDone = localStorage.getItem(`${lessonId}-done`) === 'true';
+                        document.getElementById('next-lesson-btn').style.display = isDone ? 'block' : 'none';
 
-            // Volta ao topo da tela para uma boa visualização da aula
-            window.scrollTo(0, 0);
-        }
-
-        function goToNextLesson() {
-            const lesson = lessons[currentLessonId];
-            if (lesson && lesson.nextLessonId && lessons[lesson.nextLessonId]) {
-                showLesson(lesson.nextLessonId);
+                        window.scrollTo(0, 0);
+                    })
+                    .catch(error => {
+                        lessonContentDiv.innerHTML = `<h2>Erro ao carregar a aula</h2><p>Ocorreu um erro: ${error.message}</p>`;
+                        console.error("Erro ao carregar conteúdo externo:", error);
+                    });
             } else {
-                alert("Parabéns! Você concluiu esta é a última aula deste módulo/curso.");
-                showMenu();
+                // Opção 2: Usar conteúdo embutido na propriedade 'content' (para Aula 1)
+                lessonContentDiv.innerHTML = lesson.content;
+                currentLessonId = lessonId;
+
+                const isDone = localStorage.getItem(`${lessonId}-done`) === 'true';
+                document.getElementById('next-lesson-btn').style.display = isDone ? 'block' : 'none';
+
+                // Lógica de inicialização específica da Aula 1 (como o Story Viewer/Acordeão, se houver)
+                if (lessonId === 'm1-a1') {
+                    const savedSlide = parseInt(localStorage.getItem('m1-a1-story-slide')) || 1;
+                    updateStoryViewer(savedSlide);
+                    enableCheckButton('m1-a1');
+                }
+
+                window.scrollTo(0, 0);
             }
         }
 
@@ -944,13 +966,13 @@
                     
                     <p>Conheça alguns diferenciais dos empreendedores:</p>
                     <ul>
-                        <li>Têm disposição para sair da rotina;</li>
-                        <li>Planejam suas atividades antes da execução;</li>
-                        <li>Têm ações e prazos definidos;</li>
-                        <li>Analisam resultados e avaliam a necessidade de efetuar mudanças;</li>
-                        <li>Agem diante das adversidades;</li>
-                        <li>Têm compromisso com a qualidade e foco no cliente;</li>
-                        <li>Lideram de maneira eficiente.</li>
+                        <li>▶ Têm disposição para sair da rotina;</li>
+                        <li>▶ Planejam suas atividades antes da execução;</li>
+                        <li>▶ Têm ações e prazos definidos;</li>
+                        <li>▶ Analisam resultados e avaliam a necessidade de efetuar mudanças;</li>
+                        <li>▶ Agem diante das adversidades;</li>
+                        <li>▶ Têm compromisso com a qualidade e foco no cliente;</li>
+                        <li>▶ Lideram de maneira eficiente.</li>
                     </ul>
                     
                     <p>Ações estratégicas caracterizam o empreendedor que tem clareza de suas metas e gerencia seu negócio para alcançá-las. Para se desenvolver e manter a competitividade no mercado, é importante ter segurança nas decisões tomadas e confiar nas suas competências para enfrentar dificuldades e superar desafios.</p>
@@ -1077,24 +1099,48 @@
             },
 
             // Aulas placeholder (para evitar erros de navegação)
-            'm1-a2': { title: 'Módulo 1 – Aula 2. Conheça o mercado', content: '<h3>Em desenvolvimento...</h3><p>O conteúdo da próxima aula será adicionado aqui.</p>', nextLessonId: 'm1-a3' },
-            'm1-a3': { title: 'Módulo 1 – Aula 3. Conheça o cliente', content: '<h3>Em desenvolvimento...</h3><p>O conteúdo da próxima aula será adicionado aqui.</p>', nextLessonId: 'm1-a4' },
-            'm1-a4': { title: 'Módulo 1 – Aula 4. Conheça o negócio', content: '<h3>Em desenvolvimento...</h3><p>O conteúdo da próxima aula será adicionado aqui.</p>', nextLessonId: 'm2-a1' },
+            'm1-a2': {
+                title: 'Módulo 1 – Aula 2. Conheça o mercado',
+                url: 'aula2.html',
+                nextLessonId: 'm1-a3'
+            },
 
-            'm2-a1': { title: 'Módulo 2 – Aula 1. Os primeiros passos', content: '<h3>Em desenvolvimento...</h3><p>O conteúdo da próxima aula será adicionado aqui.</p>', nextLessonId: 'm2-a2' },
-            'm2-a2': { title: 'Módulo 2 – Aula 2. Formação de preços', content: '<h3>Em desenvolvimento...</h3><p>O conteúdo da próxima aula será adicionado aqui.</p>', nextLessonId: 'm2-a3' },
-            'm2-a3': { title: 'Módulo 2 – Aula 3. Legalização', content: '<h3>Em desenvolvimento...</h3><p>O conteúdo da próxima aula será adicionado aqui.</p>', nextLessonId: 'm3-a1' },
+            // AULA 3 — arquivo separado
+            'm1-a3': {
+                title: 'Módulo 1 – Aula 3. Conheça o cliente',
+                url: 'aula3.html',
+                nextLessonId: 'm1-a4'
+            },
 
-            'm3-a1': { title: 'Módulo 3 – Aula 1. Controle de Vendas', content: '<h3>Em desenvolvimento...</h3><p>O conteúdo da próxima aula será adicionado aqui.</p>', nextLessonId: 'm3-a2' },
-            'm3-a2': { title: 'Módulo 3 – Aula 2. Controle de Estoque', content: '<h3>Em desenvolvimento...</h3><p>O conteúdo da próxima aula será adicionado aqui.</p>', nextLessonId: 'm3-a3' },
-            'm3-a3': { title: 'Módulo 3 – Aula 3. Controle Financeiro', content: '<h3>Em desenvolvimento...</h3><p>O conteúdo da próxima aula será adicionado aqui.</p>', nextLessonId: 'm4-a1' },
+            // AULA 4 — arquivo separado
+            'm1-a4': {
+                title: 'Módulo 1 – Aula 4. Conheça o negócio',
+                url: 'aula4.html',
+                nextLessonId: 'm2-a1'
+            },
 
-            'm4-a1': { title: 'Módulo 4 – Aula 1. Desenvolvimento', content: '<h3>Em desenvolvimento...</h3><p>O conteúdo da próxima aula será adicionado aqui.</p>', nextLessonId: null },
+            // MÓDULO 2 – Aula 1 — arquivo separado
+            'm2-a1': {
+                title: 'Módulo 2 – Aula 1. Os primeiros passos',
+                url: 'mod2-a1.html',
+                nextLessonId: 'm2-a2'
+            },
+
+            // MÓDULO 2 – Aula 2 — arquivo separado
+            'm2-a2': {
+                title: 'Módulo 2 – Aula 2. Outra aula',
+                url: 'mod2-a2.html',
+                nextLessonId: 'm2-a3'
+            }
         };
 
-        // Inicializa o armazenamento e o progresso ao carregar a página
-        window.onload = initializeStorage;
+
+        // =======================================================
+        // CHAMADA DE INICIALIZAÇÃO
+        // =======================================================
+        document.addEventListener('DOMContentLoaded', initializeStorage);
     </script>
+
 </body>
 
 </html>

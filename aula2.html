@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo 1 – Aula 2. Conheça o mercado</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <style>
+        /* ======== ESTILO GERAL (Deve ser copiado do seu index.html) ======== */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f1f4f9;
+            color: #222;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: linear-gradient(135deg, #001b44, #003d99);
+            color: #ffffff;
+            text-align: center;
+            padding: 40px 20px;
+            font-size: 2.2rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        main {
+            flex: 1;
+            /* Permite que o main ocupe o espaço restante */
+            padding: 20px;
+        }
+
+        /* Botão Voltar/Menu */
+        #menu-btn {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 10px;
+            display: none;
+            /* Inicia oculto, só aparece na lição */
+        }
+
+        /* ======== PROGRESSO ======== */
+        .progress-section {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin: 50px auto 30px;
+            max-width: 1000px;
+            padding: 0 20px;
+        }
+
+        /* Estilo Básico e Responsivo para Imagens */
+        #lesson-view img {
+            max-width: 100%;
+            /* Garante que a imagem nunca ultrapasse a largura do container */
+            height: auto;
+            /* Mantém a proporção da imagem */
+            display: block;
+            /* Faz com que a imagem se comporte como um bloco */
+            margin: 20px auto;
+            /* Centraliza e adiciona margem acima/abaixo */
+            border-radius: 8px;
+            /* Opcional: bordas arredondadas */
+        }
+
+        .progress-card {
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            padding: 25px 40px;
+            text-align: center;
+            flex: 1 1 250px;
+            transition: all 0.3s ease;
+        }
+
+        .progress-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 14px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-value {
+            font-size: 2.4rem;
+            color: #003d99;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .progress-card h3 {
+            font-size: 1rem;
+            color: #555;
+            margin: 0;
+        }
+
+        /* ======== MÓDULOS ======== */
+        .modules {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 30px;
+        }
+
+        .module-card {
+            background: #ffffff;
+            border-radius: 18px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            transition: 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+        }
+
+        .module-header {
+            background: #003d99;
+            color: white;
+            padding: 25px 20px;
+            font-size: 1.4rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .module-content {
+            padding: 25px 25px 30px;
+        }
+
+        .module-content h4 {
+            margin: 10px 0 15px;
+            color: #222;
+            font-size: 1.05rem;
+            border-bottom: 2px solid #e0e6f0;
+            padding-bottom: 5px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            margin: 10px 0;
+            font-size: 0.95rem;
+            color: #003d99;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+        }
+
+        li .status-icon {
+            font-size: 1rem;
+            margin-right: 8px;
+            color: #ccc;
+            /* Padrão */
+        }
+
+        li.completed .status-icon {
+            color: #4CAF50;
+            /* Verde para concluído */
+        }
+
+
+        li:hover {
+            color: #001b44;
+            text-decoration: underline;
+        }
+
+        /* ==================== ESTILOS DA AULA ==================== */
+        #lesson-view {
+            max-width: 800px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 18px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            /* display: none; */
+            /* Manter visível para teste */
+        }
+
+        #lesson-view h2 {
+            color: #003d99;
+            border-bottom: 2px solid #e0e6f0;
+            padding-bottom: 10px;
+        }
+
+        #lesson-view h3 {
+            color: #001b44;
+            margin-top: 30px;
+        }
+
+        /* --- Story Viewer (Carrossel) --- */
+        .story-viewer {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+            background-color: #f9f9f9;
+        }
+
+        .story-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+
+        .story-header h4 {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        .story-slides {
+            position: relative;
+        }
+
+        .story-slide {
+            display: none;
+            padding: 10px 0;
+        }
+
+        .story-slide.active {
+            display: block;
+        }
+
+        .image-placeholder {
+            background-color: #e0e6f0;
+            color: #666;
+            text-align: center;
+            padding: 40px 10px;
+            margin: 15px 0;
+            border-radius: 6px;
+        }
+
+        .story-slide button {
+            background-color: #003d99;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.2s;
+        }
+
+        .story-slide button:hover {
+            background-color: #001b44;
+        }
+
+        /* --- Acordeão --- */
+        .accordion-item {
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .accordion-header {
+            background-color: #f7f7f7;
+            color: #003d99;
+            padding: 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+
+        .accordion-header:hover {
+            background-color: #e0e6f0;
+        }
+
+        .accordion-header .material-icons {
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-header.active .material-icons {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            background-color: white;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-in-out, padding 0.3s ease-in-out;
+            padding: 0 15px;
+        }
+
+        .accordion-content.open {
+            /* O JS precisa calcular o max-height e adicionar padding-top/bottom */
+            padding-bottom: 15px;
+        }
+
+        /* --- Exercício --- */
+        .exercise-card {
+            background: #e0e6f0;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .question {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            background: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .question p {
+            font-weight: 600;
+            margin-top: 0;
+        }
+
+        .question label {
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        .question .feedback {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+
+        .exercise-card button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 10px;
+            transition: background-color 0.2s;
+        }
+
+        .exercise-card button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .download-link {
+            display: inline-flex;
+            align-items: center;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #003d99;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+        }
+
+        .download-link i {
+            margin-right: 8px;
+        }
+
+        .download-link:hover {
+            background-color: #001b44;
+        }
+
+        #next-lesson-btn {
+            float: right;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 20px;
+            display: none;
+            /* Inicialmente oculto */
+        }
+
+        #next-lesson-btn:hover {
+            background-color: #45a049;
+        }
+
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            font-size: 0.9rem;
+            color: #666;
+            background-color: #e0e6f0;
+            /* Um pouco mais escuro para destaque */
+            border-top: 1px solid #e1e5ee;
+            margin-top: 40px;
+        }
+
+        /* Media Query para telas bem pequenas (ex: celulares) */
+        @media (max-width: 600px) {
+            header {
+                font-size: 1.8rem;
+                padding: 30px 15px;
+            }
+
+            .progress-card {
+                padding: 20px;
+                flex: 1 1 100%;
+            }
+
+            .progress-section {
+                padding: 0 15px;
+                gap: 15px;
+            }
+
+            .modules {
+                padding: 0 15px;
+            }
+
+            .module-header {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>Módulo 1 – Aula 2. Conheça o mercado</header>
+    <main>
+        <div id="lesson-view" style="display: block;">
+            <div id="m1-a2-content">
+
+                <h2>Conheça o mercado</h2>
+                <p>Você sabe como identificar oportunidades de negócio?</p>
+
+                <h3>Identificar oportunidades</h3>
+                <p>Você já teve algumas ideias para o empreendimento? Ideias são pensamentos iniciais, e quase nunca estão prontas para serem aplicadas.</p>
+                <p>A partir destas ideias, o próximo passo é <strong>identificar se entre elas existe uma oportunidade</strong>. As oportunidades estão relacionadas às <strong>necessidades e expectativas do mercado</strong>.</p>
+                <p>Para confirmar se a ideia é uma <strong>oportunidade</strong> e aproveitá-la ao máximo, é preciso avaliar riscos, desafios, vantagens e desvantagens, recursos que possui e quais precisará providenciar para explorar a oportunidade. Quanto mais souber sobre ela, melhor.</p>
+                <p>É necessário que não falte disposição para empreender, pois é impossível pensar em diferentes ideias, analisar e explorar uma oportunidade sem dedicação e comprometimento.</p>
+
+                <p>Clique nos itens abaixo e saiba como validar uma oportunidade.</p>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>1. Identificar</span>
+                        <i class="material-icons">keyboard_arrow_down</i>
+                    </div>
+                    <div class="accordion-content">
+                        <p>Levante o maior volume de informações para a tomada de decisão.
+</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>2. Avaliar</span>
+                        <i class="material-icons">keyboard_arrow_down</i>
+                    </div>
+                    <div class="accordion-content">
+                        <p>Avalie se as informações possibilitam a implantação do negócio, se há disposição para investir nos recursos necessários para fazer o negócio funcionar.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>3. Decidir</span>
+                        <i class="material-icons">keyboard_arrow_down</i>
+                    </div>
+                    <div class="accordion-content">
+                        <p>Para decidir se seguirá em frente, considere os riscos e os desafios inerentes à oportunidade.</p>
+                    </div>
+                </div>
+                <img src="as4.png" alt="">
+                <img src="Captura1.png">
+
+                <h3>Tendências – Criatividade – Inovação – Valor</h3>
+                <p>Uma vez identificada a oportunidade de negócio, é hora de avaliar as tendências relacionadas à atividade empreendedora e pensar como a criatividade e a inovação poderão contribuir para gerar valor ao mercado que se pretende atender. Clique nos temas para saber mais sobre cada um.</p>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>TENDÊNCIAS</span>
+                        <i class="material-icons">keyboard_arrow_down</i>
+                    </div>
+                    <div class="accordion-content">
+                        <p><strong>Tendência</strong> pode ser entendida como determinada direção que as pessoas e empresas tendem a seguir impulsionadas por contextos, comportamentos, acontecimento e situações. Por exemplo, o desenvolvimento tecnológico acelerado e a comunicação pela internet geraram a tendência de que as empresas busquem a transformação digital em suas atividades e até mesmo no relacionamento com os clientes.</p>
+                        <p><strong>O que fazer:</strong> pesquisar e analisar para quais direções o setor no qual pretende empreender está apontando. 
+</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>CRIATIVIDADE</span>
+                        <i class="material-icons">keyboard_arrow_down</i>
+                    </div>
+                    <div class="accordion-content">
+                        <p><strong>Criatividade</strong> é o processo de criar ideias combinando diversas informações e fatores, fazendo mais do que o óbvio. <br>
+
+<strong>O que fazer:</strong> questionar-se sobre como pode fazer de forma diferente o que já é conhecido. É preciso registrar as ideias que surgirem para que possam ser analisadas quanto à inovação e ao valor que representam.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>INOVAÇÃO</span>
+                        <i class="material-icons">keyboard_arrow_down</i>
+                    </div>
+                    <div class="accordion-content">
+                        <p><strong>Inovação</strong> pode ser entendida como a criatividade aplicada para gerar valor econômico e social, ou seja, para gerar resultados positivos para quem transforma a ideia criativa em um produto ou serviço interessante para quem o utiliza ou usufrui. <br>
+
+<strong>O que fazer:</strong> planejar e testar as ideias para avaliar qual delas agrega maior valor ao negócio e ao mercado. Identificada uma oportunidade, é preciso torná-la realidade.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>VALOR</span>
+                        <i class="material-icons">keyboard_arrow_down</i>
+                    </div>
+                    <div class="accordion-content">
+                        <p>Neste contexto, o<strong> valor</strong> não se refere a aspectos monetários, não se trata do preço das coisas. É o valor percebido pelo cliente no produto ou serviço oferecido. Pensar no valor é pensar nas necessidades e expectativas dos clientes para identificar como entregar um produto ou serviço que atenda e supere o que é esperado e desejado.<br>
+
+<strong>O que fazer:</strong> analisar constantemente se a proposta de valor está chegando aos clientes e sendo percebida, efetivamente, como algo de valor, que contribua ou traga algum benefício para as pessoas ou empresas.</p>
+                    </div>
+                </div>
+
+                <p>O empreendedor precisa desenvolver a criatividade e promover a inovação. A pressão e a rotina do dia a dia, por vezes, impedem o pensamento criativo, a visão estratégica e a inovação.
+<br>
+▶ Para ser competitivo no mundo dos negócios é necessário fazer o que outros ainda não fazem, ou fazer melhor o que outros já fazem, buscando exceder as expectativas dos clientes na entrega de produtos e serviços.
+<br>
+▶ Iniciar um negócio da mesma forma que todos os outros existentes é sair em desvantagem, uma vez que os outros já têm sua clientela. Para conquistar uma fatia deste mercado é preciso encantar o cliente de alguma forma.
+<br>
+▶ Ao falar de inovação, fala-se tanto de aspectos tecnológicos como das relações de trabalho e dos processos do negócio. A inovação é um dos fatores que contribuem para que a empresa seja competitiva. <br>
+<br>
+Exercite a avaliação de oportunidades. Clique no ícone abaixo e faça download de um modelo.</p>
+                <a href="oportunidade.pdf" class="download-link">
+
+                    <i class="material-icons" style="font-size: 24px;">file_download</i>Colocando em Prática
+                </a>
+
+                <h3>Riscos calculados</h3>
+                <p>O mundo dos negócios exige do empreendedor uma boa dose de ousadia e de coragem. Muitas vezes, estas atitudes implicam correr riscos para garantir o crescimento de um negócio, o que não tem nada a ver com ser inconsequente. É preciso planejar os passos: <strong>calcular o momento, a circunstância e a forma de arriscar</strong> para fazer o seu negócio crescer sem se desestabilizar.</p>
+                <p>Correr riscos calculados envolve avaliar as alternativas, controlar os resultados e, com isso, naturalmente, reduzir os riscos no seu negócio. Para isso, é fundamental que você realize um planejamento cuidadoso a fim de verificar se você já tem todas as informações sobre o negócio e o mercado, se os recursos que possui atendem à necessidade inicial do negócio e até mesmo como buscar alternativas caso algum imprevisto aconteça. 
+
+<img src="subindomoney.png" alt="descrição da imagem">
+<img src="Captura de tela 2025-12-04 194224.png" alt="">
+
+</p>
+                <p>Você entende a diferença entre correr riscos calculados e tomar decisões sem critérios? Você costuma pensar nos imprevistos e em como lidar com eles? Pense em uma situação em que correu riscos e como reagiu a eles.</p>
+
+                <h3>Mercado</h3>
+                <p>Mercado é onde se estabelecem as relações de oferta e procura. Para estabelecer um negócio e ser competitivo, você precisa conhecer o cenário empresarial no qual pretende empreender. Além disso, é necessário conhecer diferentes mercados: consumidor, concorrente, fornecedor e como buscar parceiros.</p>
+                <p>Clique nos tipos de mercado para saber mais.</p>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>Mercado consumidor</span>
+                        <i class="material-icons">keyboard_arrow_down</i>
+                    </div>
+                    <div class="accordion-content">
+                        <p>O mercado consumidor é formado por pessoas e empresas que buscam satisfazer suas necessidades e têm interesse em comprar os produtos ou serviços que você tem para oferecer. A principal razão da existência de um negócio é conquistar seu público-alvo. Para isso, é preciso satisfazer às necessidades e desejos do cliente, entregando-lhe o valor esperado. Desta forma, o empreendedor que pretende iniciar um negócio, precisa conhecer como seus potenciais clientes pensam e agem, e como eles esperam ser atendidos. Ter um olhar atento para o mercado consumidor é tão estratégico aos negócios que ampliaremos este tema numa próxima etapa do curso, quando falaremos mais sobre público-alvo, para quem ofertar os produtos ou serviços, e sobre as possibilidades de relacionamento com os clientes.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>Mercado concorrente</span>
+                        <i class="material-icons">keyboard_arrow_down</i>
+                    </div>
+                    <div class="accordion-content">
+                        <p>O mercado concorrente é composto por pessoas ou empresas que oferecem produtos ou serviços iguais ou similares àquele que a sua empresa oferecerá, atendendo o mesmo público-alvo e atuando na mesma região. Você poderá aprender muito com seus concorrentes. Por isso, é importante saber quem são, quantos são e como atuam. É importante analisar não apenas quantitativamente (quantidade), mas também qualitativamente (como são) os concorrentes. Analisando a concorrência, você poderá identificar formas de atuação que atendam necessidades dos clientes que não estão sendo vistas, identificar novos mercados que podem ser atendidos, aprimorar estratégias de comercialização e comunicação, entre outras oportunidades. O que pode se transformar em vantagens competitivas para o negócio e diferenciais para os clientes que você pretende atender. Conhecendo como atuam seus concorrentes, e o que os clientes consideram mais importante ao escolher comprar destas empresas, você poderá encontrar seu conceito de negócio e evitar erros. Conceito é a maneira como você entende que sua empresa deve ser, como agirá e qual diferencial oferecerá.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>Mercado fornecedor e busca de parceiros</span>
+                        <i class="material-icons">keyboard_arrow_down</i>
+                    </div>
+                    <div class="accordion-content">
+                        <p>Não é possível empreender sozinho. Todo empreendedor precisará, em algum momento, se relacionar com pessoas ou empresas que forneçam matéria-prima, insumos, serviços, sendo estas empresas ou profissionais chamados de fornecedores ou parceiros. </p>
+                        <p>"Fornecedor é toda pessoa física ou jurídica, pública ou privada, nacional ou estrangeira, bem como os entes despersonalizados, que desenvolvem atividade de produção, montagem, criação, construção, transformação, importação, exportação, distribuição ou comercialização de produtos ou prestação de serviços."<br>
+                            Código de Defesa do Consumidor. </p><br>
+                        <p>Quanto mais forte a relação de parceria com o seu mercado fornecedor, maior a possibilidade de ganhar espaço no mercado. Alguns pontos devem ser considerados na identificação de fornecedores: preço, forma de pagamento, localização, prazo e pontualidade na entrega, qualidade, valores praticados e reputação.</p>
+                    </div>
+                </div>
+
+                <p>Ter visão ampla, analisando todo o cenário empresarial, os ambientes interno e externo da empresa, entendendo que a empresa é um organismo vivo, que precisa se relacionar com clientes, fornecedores e concorrentes, aumentará suas condições de ter uma empresa competitiva.</p>
+
+                <p>Considerando que você busca atender uma necessidade e agregar valor a um determinado público, clique e faça o download para registrar pesquisas do mercado concorrente.</p>
+                <a href="pesquisa_mercado.pdf" class="download-link" onclick="event.preventDefault(); style="display: flex; align-items: center; gap: 10px; color: white; font-weight: 600; margin-bottom: 20px;">
+                    <i class="material-icons" style="font-size: 24px;">file_download</i>Colocando em Prática
+                </a>
+
+                <p>Você conhece os principais aspectos do mercado onde vai atuar? Quem será o seu cliente? Onde ele está e como chegará até ele? O que é decisivo para o seu cliente na hora de finalizar a compra? Qual a quantidade de clientes que terá potencial para atender? Em quanto tempo alcançará potencial para ampliar o negócio?</p>
+
+                <div class="exercise-card" id="m1-a2-exercise">
+                    <h4>Exercícios</h4>
+                    <div class="question" data-answer="A">
+                        <p>1. Ao identificar uma oportunidade, é preciso analisar um conjunto de informações para decidir se ela é viável. Nesta análise estão:</p>
+                        <label><input type="radio" name="q1-m1a2" value="A">riscos, desafios, recursos necessários, vantagens e desvantagens do negócio.</label><br>
+                        <label><input type="radio" name="q1-m1a2" value="B">vontade de empreender, opiniões favoráveis e possibilidade de financiamento.</label><br>
+                        <label><input type="radio" name="q1-m1a2" value="C"> possibilidade de crescimento, quantidade de concorrentes e riscos financeiros.</label><br>
+                        <div class="feedback"></div>
+                    </div>
+
+                    <div class="question" data-answer="B">
+                        <p>2. Além de identificar a oportunidade de negócio, é preciso avaliar as tendências do mercado. Para isso, o empreendedor deve:</p>
+                        <label><input type="radio" name="q2-m1a2" value="A"> planejar e testar as ideias para avaliar qual delas agraga maior valor ao negocio e ao mercado.</label><br>
+                        <label><input type="radio" name="q2-m1a2" value="B"> pesquisar e analisar para quais direções o setor no qual pretende empreender está apontando.</label><br>
+                        <label><input type="radio" name="q2-m1a2" value="C"> analisar constantemente se a proposta de valor está sendo percebida pelos clientes.</label><br>
+                        <div class="feedback"></div>
+                    </div>
+
+                    <button onclick="checkExercise('m1-a2')" disabled>Verificar Respostas</button>
+                    <div id="exercise-m1-a2-result"></div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2025 Plataforma de Aprendizagem</p>
+    </footer>
+
+    <script>
+        // === FUNÇÃO DO ACORDEÃO ===
+        function toggleAccordion(header) {
+            const content = header.nextElementSibling;
+            const isActive = header.classList.contains('active');
+
+            // 1. Fechar todos os outros acordeões abertos (comportamento de sanfona/accordion)
+            document.querySelectorAll('.accordion-header.active').forEach(item => {
+                if (item !== header) {
+                    item.classList.remove('active');
+                    item.nextElementSibling.style.maxHeight = null;
+                    item.nextElementSibling.classList.remove('open');
+                    item.querySelector('.material-icons').style.transform = 'rotate(0deg)';
+                }
+            });
+
+            // 2. Abrir ou fechar o item clicado
+            if (isActive) {
+                // Fechar
+                header.classList.remove('active');
+                content.style.maxHeight = null;
+                content.classList.remove('open');
+                header.querySelector('.material-icons').style.transform = 'rotate(0deg)';
+            } else {
+                // Abrir
+                header.classList.add('active');
+                // Calcula o scrollHeight (altura real do conteúdo) e define como max-height
+                content.style.maxHeight = content.scrollHeight + "px";
+                content.classList.add('open');
+                header.querySelector('.material-icons').style.transform = 'rotate(180deg)';
+            }
+        }
+
+        // === FUNÇÃO DO EXERCÍCIO ===
+        // Ativa o botão de verificação quando todas as perguntas são respondidas
+        document.addEventListener('DOMContentLoaded', () => {
+            const exerciseCard = document.getElementById('m1-a2-exercise');
+            const questions = exerciseCard.querySelectorAll('.question');
+            const checkButton = exerciseCard.querySelector('button');
+
+            questions.forEach(q => {
+                q.querySelectorAll('input[type="radio"]').forEach(radio => {
+                    radio.addEventListener('change', () => {
+                        const allAnswered = Array.from(questions).every(q => 
+                            q.querySelector('input[type="radio"]:checked')
+                        );
+                        checkButton.disabled = !allAnswered;
+                    });
+                });
+            });
+        });
+
+        function checkExercise(exerciseId) {
+            const exerciseCard = document.getElementById(exerciseId + '-exercise');
+            const questions = exerciseCard.querySelectorAll('.question');
+            let correctCount = 0;
+
+            questions.forEach((question, index) => {
+                const answer = question.getAttribute('data-answer');
+                const selected = question.querySelector('input[type="radio"]:checked');
+                const feedback = question.querySelector('.feedback');
+
+                if (selected) {
+                    if (selected.value === answer) {
+                        feedback.innerHTML = '<span style="color: green; font-weight: 600;">Correto!</span>';
+                        correctCount++;
+                    } else {
+                        feedback.innerHTML = `<span style="color: red; font-weight: 600;">Incorreto.</span> A resposta correta era ${answer}.`;
+                    }
+                } else {
+                    feedback.innerHTML = '<span style="color: orange;">Selecione uma resposta.</span>';
+                }
+            });
+
+            const resultDiv = document.getElementById('exercise-' + exerciseId + '-result');
+            resultDiv.innerHTML = `<h4>Resultado: Você acertou ${correctCount} de ${questions.length} perguntas!</h4>`;
+        }
+
+        // Recalcular a altura em caso de redimensionamento da tela (melhora a transição do acordeão)
+        window.addEventListener('resize', () => {
+            document.querySelectorAll('.accordion-content.open').forEach(content => {
+                content.style.maxHeight = content.scrollHeight + "px";
+            });
+        });
+    </script>
+</body>
+</html>
