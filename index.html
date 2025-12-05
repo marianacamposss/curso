@@ -795,33 +795,35 @@
             let lessonIsDone = localStorage.getItem(`${lessonId}-done`) === 'true';
 
             // Lógica de Conclusão e Progresso
-            if (!lessonIsDone) {
-                if (correctAnswers === totalQuestions) {
-                    localStorage.setItem(`${lessonId}-done`, 'true');
-                    completed++;
-                    correct++;
-                    localStorage.setItem('completed', completed);
-                    localStorage.setItem('correct', correct);
+            // SUBSTITUA A LÓGICA DE CONCLUSÃO DENTRO DE checkExercise(lessonId) POR ISTO:
 
-                    document.getElementById('next-lesson-btn').style.display = 'block';
-                    resultDiv.innerHTML = `**Parabéns!** Você acertou todas (${correctAnswers}/${totalQuestions}). Lição concluída!`;
-                    resultDiv.style.color = 'green';
-                    checkBtn.disabled = true; // Desabilita permanentemente se 100% de acerto
-                } else {
-                    resultDiv.innerHTML = `Você acertou **${correctAnswers} de ${totalQuestions}** questões. Tente novamente!`;
-                    resultDiv.style.color = '#003d99';
-                    // Re-habilita o botão para que o usuário possa tentar novamente
-                    checkBtn.disabled = false;
-                }
-            } else {
-                // Se a lição JÁ ESTÁ CONCLUÍDA
-                resultDiv.innerHTML = `Lição já concluída. Seu resultado atual: **${correctAnswers} de ${totalQuestions}**.`;
-                resultDiv.style.color = '#003d99';
-                checkBtn.disabled = true;
-            }
+            let lessonIsDone = localStorage.getItem(`${lessonId}-done`) === 'true';
 
-            updateProgress();
-        }
+            // Verifica se acertou TUDO
+            if (correctAnswers === totalQuestions) {
+                if (!lessonIsDone) {
+                    // REGISTRA O PROGRESSO APENAS NA PRIMEIRA VEZ QUE CHEGA A 100%
+                    localStorage.setItem(`${lessonId}-done`, 'true');
+                    completed++;
+                    correct++;
+                    localStorage.setItem('completed', completed);
+                    localStorage.setItem('correct', correct);
+                }
+
+                document.getElementById('next-lesson-btn').style.display = 'block';
+                resultDiv.innerHTML = `**Parabéns!** Você acertou todas (${correctAnswers}/${totalQuestions}). Lição concluída!`;
+                resultDiv.style.color = 'green';
+                checkBtn.disabled = true; // Desabilita se 100% de acerto
+            } else {
+                // Se não acertou tudo
+                resultDiv.innerHTML = `Você acertou **${correctAnswers} de ${totalQuestions}** questões. Tente novamente!`;
+                resultDiv.style.color = '#003d99';
+                
+                // Se a lição já estiver concluída, mantemos o botão desabilitado.
+                checkBtn.disabled = lessonIsDone; 
+            }
+            
+            updateProgress();
 
         // Função para re-habilitar/desabilitar o botão de checagem
         function enableCheckButton(lessonId) {
