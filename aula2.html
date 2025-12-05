@@ -67,17 +67,11 @@
 
         /* Estilo Básico e Responsivo para Imagens */
         #lesson-view img {
-            max-width: 100%;
-            /* Garante que a imagem nunca ultrapasse a largura do container */
-            height: auto;
-            /* Mantém a proporção da imagem */
-            display: block;
-            /* Faz com que a imagem se comporte como um bloco */
-            margin: 20px auto;
-            /* Centraliza e adiciona margem acima/abaixo */
-            border-radius: 8px;
-            /* Opcional: bordas arredondadas */
-        }
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
 
         .progress-card {
             background: white;
@@ -189,16 +183,13 @@
         }
 
         /* ==================== ESTILOS DA AULA ==================== */
-        #lesson-view {
-            max-width: 800px;
-            margin: 40px auto;
-            background: white;
-            padding: 30px;
-            border-radius: 18px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-            /* display: none; */
-            /* Manter visível para teste */
-        }
+       #lesson-view {
+    width: 100%;
+    max-width: 600px; /* mais seguro no mobile */
+    margin: 20px auto;
+    padding: 20px;
+}
+
 
         #lesson-view h2 {
             color: #003d99;
