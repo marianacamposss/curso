@@ -33,6 +33,19 @@
             position: relative;
         }
 
+        .verify-btn {
+            width: 100%;
+            padding: 14px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: none;
+            background-color: #d3d3d3;
+            color: #333;
+            font-weight: 600;
+            display: block;
+            margin-top: 20px;
+        }
+
         main {
             flex: 1;
             /* Permite que o main ocupe o espaço restante */
@@ -453,7 +466,7 @@
 
     <main>
         <section id="home-view">
-            
+
 
             <section class="modules">
 
@@ -625,19 +638,19 @@
 
         function showLesson(lessonId) {
             const lesson = lessons[lessonId];
-if (!lesson) {
-    document.getElementById('home-view').style.display = 'none';
-    document.getElementById('lesson-view').style.display = 'block';
-    document.getElementById('menu-btn').style.display = 'block';
+            if (!lesson) {
+                document.getElementById('home-view').style.display = 'none';
+                document.getElementById('lesson-view').style.display = 'block';
+                document.getElementById('menu-btn').style.display = 'block';
 
-    document.getElementById('header-title').textContent = "Aula não encontrada";
+                document.getElementById('header-title').textContent = "Aula não encontrada";
 
-    document.getElementById('lesson-content').innerHTML = `
+                document.getElementById('lesson-content').innerHTML = `
         <h2>Desculpa meu amor, ainda não fiz essa 🤦‍♀️</h2>
         <p>Essa aula ainda tá sendo construída.</p>
     `;
-    return;
-}
+                return;
+            }
 
 
             // Oculta o menu e mostra a lição
@@ -1089,9 +1102,8 @@ if (!lesson) {
                             <div class="feedback"></div>
                         </div>
                         
-                        <button onclick="checkExercise('m1-a1')" disabled>Verificar Respostas</button>
-                        <div class="feedback" id="exercise-m1-a1-result"></div>
-                    </div>
+                        <button id="verify-answers-btn" class="verify-btn">Verificar Respostas</button>
+
                 `,
                 nextLessonId: 'm1-a2',
                 nextLessonTitle: 'Conheça o mercado'
